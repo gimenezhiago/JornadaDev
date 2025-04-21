@@ -1,3 +1,4 @@
+// Lista de carros com suas informações
 let listaCarros = [
     {
         "nome": "Drako GTE",
@@ -29,19 +30,34 @@ let listaCarros = [
         "img": "img/lucid-air-dream-edition.jpg",
         "descricao": "O Lucid Air Dream Edition é um sedã elétrico de luxo, oferecendo uma combinação de desempenho excepcional e conforto. Ele é conhecido por sua autonomia impressionante e tecnologia inovadora.",
     }
-]
+];
 
-listaCarros.map((carro)=> {
-    let cardCarro = document.querySelector('#cards')
+// Criar os cards dos carros dinamicamente
+listaCarros.forEach((carro, posicao) => {
+    let cardCarro = document.querySelector('#cards');
     cardCarro.innerHTML += `
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="${carro.img}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">${carro.nome}</h5>
-                      <a href="#" class="btn btn-secondary"><i class="bi bi-zoom-in"></i></a>
-                    </div>
-                  </div>
-            </div>`
-    
-})
+        <div class="col-md-4">
+            <div class="card m-2">
+                <img src="${carro.img}" class="card-img-top" alt="${carro.nome}">
+                <div class="card-body">
+                    <h5 class="card-title">${carro.nome}</h5>
+                    <a href="#" class="btn btn-secondary" onclick="zoomImg(${posicao})">
+                        <i class="bi bi-zoom-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>`;
+});
+
+// Função para mostrar os detalhes do carro no modal
+function zoomImg(posicao) {
+    let carroSelecionado = listaCarros[posicao];
+    document.querySelector('#nomeCarro').textContent = carroSelecionado.nome;
+    document.querySelector('#descricaoCarro').textContent = carroSelecionado.descricao;
+    document.querySelector('#imgModal').src = carroSelecionado.img;
+    document.querySelector('#imgModal').alt = carroSelecionado.nome;
+
+    // Mostrar o modal
+    let modal = new bootstrap.Modal(document.getElementById('modalZoom'));
+    modal.show();
+}
